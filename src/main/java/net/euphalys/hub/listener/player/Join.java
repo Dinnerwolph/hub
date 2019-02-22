@@ -38,7 +38,7 @@ public class Join implements Listener {
         sign.setLine(10, "§c ★ Work In Progress ★");
         sign.setLine (11 "§6Bienvenue, §5" + player.getName());
         sign.setLine(12, "§6Serveur : §5" + EuphalysApi.getInstance().getSProperty("name"));
-        sign.setLine (13, "§6Connectés :§5//TODO");
+        sign.setLine (13, "§6Connectés :§5//TODO"); //TODO
         sign.setLine (14, "§6Grade :" + EuphalysApi.getInstance().getPlayer(player.getUniqueId()).getGroup());
 
         Hub.getInstance().sendInformation();
