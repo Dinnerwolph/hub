@@ -33,9 +33,13 @@ public class Join implements Listener {
             event.setJoinMessage(player.getDisplayName() + " §7§oa rejoint le serveur !");
         else
             event.setJoinMessage("");
-        IScoreboardSign sign = EuphalysApi.getInstance().newScoreboardSign(player, "Information");
+        IScoreboardSign sign = EuphalysApi.getInstance().newScoreboardSign(player, "§6Project EpyCube");
         sign.create();
-        sign.setLine(14, "§6play.euphalys.net");
+        sign.setLine(10, "§c ★ Work In Progress ★");
+        sign.setLine (11 "§6Bienvenue, §5" + player.getName());
+        sign.setLine(12, "§6Serveur : §5" + EuphalysApi.getInstance().getSProperty("name"));
+        sign.setLine (13, "§6Connectés :§5//TODO");
+        sign.setLine (14, "§6Grade :" + EuphalysApi.getInstance().getPlayer(player.getUniqueId()).getGroup());
 
         Hub.getInstance().sendInformation();
     }
