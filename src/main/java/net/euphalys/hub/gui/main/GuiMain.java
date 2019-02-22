@@ -30,7 +30,7 @@ public class GuiMain extends AbstractGui {
         this.setSlotData("Build", Material.GRASS, 12, new String[]{}, "build");
         this.setSlotData(ChatColor.GOLD + "Changer de hub", Material.ENDER_CHEST, 35, makeButtonLore(new String[]{"Cliquez pour ouvrir l'interface"}, true, false), "switch_hub");
         if (EuphalysApi.getInstance().getPlayer(player.getUniqueId()).getGroup().getGroupId() >= 50)
-            this.setSlotData(ChatColor.BLUE + "Shattered Space", Material.DIAMOND_SWORD, 10, makeButtonLore(new String[]{"", "§8Cliquez pour rejoindre une partie", "", "Développeur: Dinnerwolph, trollgun", "GameDesign : FlameOfChange"}, true, false), "shattered");
+            this.setSlotData(ChatColor.BLUE + "Shattered Space", Material.DIAMOND_SWORD, 10, makeButtonLore(new String[]{"", "", "Développeur: Dinnerwolph, trollgun", "GameDesign : FlameOfChange", "Version Minecraft : §b1.9 - 1.13 ", "§cJeu en test interne."}, true, false), "shattered");
         this.setBackSlot();
         player.openInventory(this.inventory);
     }
