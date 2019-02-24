@@ -12,8 +12,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.simple.JSONObject;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Dinnerwolph
@@ -37,7 +37,6 @@ public class Hub extends JavaPlugin {
         this.guiManager = new GuiManager(this);
         this.playerManager = new PlayerManager(this);
         this.eventBus = new EventBus();
-        this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         this.eventBus.registerManager(new PlayerManager(this));
         new ListenerManager();
     }
@@ -59,7 +58,9 @@ public class Hub extends JavaPlugin {
     }
 
     public void sendInformation() {
-        Map<Integer, Integer> info = new HashMap<>();
+        Map<Integer, Integer> info = new ConcurrentHashMap<>();
+        JSONObject object = new JSONObject();
+        JSONObject map = new JSONObject();
         for (Player player : Bukkit.getOnlinePlayers()) {
             IEuphalysPlayer euphalysPlayer = EuphalysApi.getInstance().getPlayer(player.getUniqueId());
             int groupid = euphalysPlayer.getGroup().getGroupId();
@@ -67,14 +68,16 @@ public class Hub extends JavaPlugin {
                 info.put(groupid, 1);
             else
                 info.put(groupid, info.get(groupid) + 1);
-            JSONObject object = new JSONObject();
+            object.clear();
+            map.clear();
+            map.putAll(info);
             object.put("server", EuphalysApi.getInstance().getSProperty("name"));
             object.put("type", "HUB_GROUP");
-            object.put("data", new JSONObject(info).toJSONString());
+            object.put("data", map.toJSONString());
             EuphalysApi.getInstance().getContext().writeAndFlush(object.toJSONString());
         }
-        if(Bukkit.getOnlinePlayers().size() == 0) {
-            JSONObject object = new JSONObject();
+        if (Bukkit.getOnlinePlayers().size() == 0) {
+            object.clear();
             object.put("server", EuphalysApi.getInstance().getSProperty("name"));
             object.put("type", "HUB_GROUP");
             object.put("data", null);

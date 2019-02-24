@@ -11,6 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Formatter;
+
 public class GuiFriends extends AbstractGui {
 
     private final int page;
@@ -35,6 +37,11 @@ public class GuiFriends extends AbstractGui {
         int[] baseSlots = {10, 11, 12, 13, 14, 15, 16};
         boolean more = false;
         IEuphalysPlayer euphaPlayer = EuphalysApi.getInstance().getPlayer(player.getUniqueId());
+        ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+        /**new String[]{"§6Statut : §7" +
+         (target.isOnline() ? "§aConnecté ✔" : "§cDéconnecté ✖"), "§6Grade : §7" + target.getGroup().getName(),
+         "Clic-droit pour retirer des amis.", (target.isOnline() ? "Clic-gauche pour rejoindre votre amis." : "")}*/
+        String[] lores = new String[]{"§6Statut: %1$s", "§6Grade : §7%2$s", "Clic-droit pour retirer des amis.", "%3$s"};
         for (int number = 0; number < euphaPlayer.getFriends().size(); number++) {
             if (i < (7 * (this.page - 1))) {
                 i++;
@@ -45,10 +52,9 @@ public class GuiFriends extends AbstractGui {
             }
             String targetName = euphaPlayer.getFriends().get(number);
             IEuphalysPlayer target = EuphalysApi.getInstance().getPlayer(targetName);
-            this.setHead(inventory, targetName, "§7" + targetName, new ItemStack(Material.SKULL_ITEM, 1, (short) 3),
-                    baseSlots[slot] + (9 * line), new String[]{"§6Statut : §7" +
-                            (target.isOnline() ? "§aConnecté ✔" : "§cDéconnecté ✖"), "§6Grade : §7" + target.getGroup().getName(),
-                            "Clic-droit pour retirer des amis.", (target.isOnline() ? "Clic-gauche pour rejoindre votre amis." : "")}, (target.isOnline() ? "JOIN_" + euphaPlayer.getFriends().get(number) : ""),
+            this.setHead(inventory, targetName, "§7" + targetName, skull,
+                    baseSlots[slot] + (9 * line), format(lores, (target.isOnline() ? "§aConnecté ✔" : "§cDéconnecté ✖"),
+                            target.getGroup().getName(), "", (target.isOnline() ? "Clic-gauche pour rejoindre votre amis." : "")), (target.isOnline() ? "JOIN_" + euphaPlayer.getFriends().get(number) : ""),
                     "", "REMOVE_" + euphaPlayer.getFriends().get(number));
             slot++;
             if (slot == baseSlots.length) {
@@ -78,5 +84,12 @@ public class GuiFriends extends AbstractGui {
             this.hub.getGuiManager().openGui(player, new GuiFriendsRemove(this.hub, action));
         } else if (action.startsWith("JOIN_"))
             EuphalysApi.getInstance().getPlayer(player.getUniqueId()).sendToServer(EuphalysApi.getInstance().getPlayer(action.replace("JOIN_", "")).getServer());
+    }
+
+    public String[] format(String[] format, Object... args) {
+        Formatter formatter = new Formatter();
+        for (int i = 0; i < format.length; i++)
+            format[i] = formatter.format(format[i], args[i]).toString();
+        return format;
     }
 }

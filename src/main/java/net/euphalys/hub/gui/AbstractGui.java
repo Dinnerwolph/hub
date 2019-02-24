@@ -12,13 +12,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Dinnerwolph
  */
 
 public abstract class AbstractGui {
-    protected Map<Pair<ClickType, Integer>, String> actions = new HashMap<>();
+    protected Map<Pair<ClickType, Integer>, String> actions = new ConcurrentHashMap<>();
     protected Inventory inventory;
     protected final Hub hub;
 

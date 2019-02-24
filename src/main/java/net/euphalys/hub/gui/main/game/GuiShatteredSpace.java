@@ -28,6 +28,7 @@ import java.util.Map;
 public class GuiShatteredSpace extends AbstractGui {
 
     private final int page;
+    private final String template = "shsp_preview";
 
     public GuiShatteredSpace(Hub hub, int page) {
         super(hub);
@@ -47,7 +48,7 @@ public class GuiShatteredSpace extends AbstractGui {
         List<Server> servers = new ArrayList();
 
         BukkitOTL.getInstance().serverList.forEach((servername, server) -> {
-            if (servername.startsWith("shsp_preview"))
+            if (servername.startsWith(template))
                 if (server.getStatus().equals("WAITING"))
                     servers.add(server);
         });
@@ -84,7 +85,7 @@ public class GuiShatteredSpace extends AbstractGui {
 
     @Override
     public void onClick(Player player, ItemStack stack, String action, ClickType clickType) {
-        if (action.startsWith("shsp_preview")) {
+        if (action.startsWith(template)) {
             if (BukkitOTL.getInstance().serverList.get(action).getOnlineAmount() >= BukkitOTL.getInstance().serverList.get(action).getMaxAmount()) {
                 player.sendMessage(ChatColor.RED + "Ce Hub est plein, vous ne pouvez pas y aller.");
                 return;
@@ -104,7 +105,7 @@ public class GuiShatteredSpace extends AbstractGui {
     private ItemStack getHubItem(Server hub) {
         ItemStack glass = new ItemStack(Material.STAINED_GLASS, 1);
         ItemMeta meta = glass.getItemMeta();
-        String baseName = "ShatteredSpace " + hub.getServerName().replace("shsp_preview", "") + " (" + hub.getOnlineAmount() + " joueur" + (hub.getOnlineAmount() > 1 ? "s" : "") + ")";
+        String baseName = "ShatteredSpace " + hub.getServerName().replace(template, "") + " (" + hub.getOnlineAmount() + " joueur" + (hub.getOnlineAmount() > 1 ? "s" : "") + ")";
         if (hub.getOnlineAmount() <= 15) {
             glass.setDurability(DyeColor.GREEN.getWoolData());
             meta.setDisplayName(ChatColor.GREEN + baseName);

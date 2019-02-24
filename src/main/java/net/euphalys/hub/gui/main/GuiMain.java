@@ -1,6 +1,5 @@
 package net.euphalys.hub.gui.main;
 
-import net.euphalys.api.player.IEuphalysPlayer;
 import net.euphalys.core.api.EuphalysApi;
 import net.euphalys.hub.Hub;
 import net.euphalys.hub.gui.AbstractGui;
@@ -10,9 +9,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Dinnerwolph

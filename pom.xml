@@ -8,6 +8,13 @@
     <artifactId>hub</artifactId>
     <version>1.0</version>
 
+    <repositories>
+        <repository>
+            <id>viaversion-repo</id>
+            <url>https://repo.viaversion.com</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>net.euphalys</groupId>
@@ -27,6 +34,12 @@
             <version>1.9</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/../api/src/main/resources/spigot.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>us.myles</groupId>
+            <artifactId>viaversion</artifactId>
+            <version>LATEST</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     <build>

@@ -15,11 +15,12 @@ import org.bukkit.entity.Player;
 public class PlayerManager extends AbstractManager {
 
     private final StaticInventory staticInventory;
-    private boolean canBuild = false;
+    private boolean canBuild;
 
     public PlayerManager(Hub hub) {
         super(hub);
         this.staticInventory = new StaticInventory(hub);
+        this.canBuild = false;
     }
 
     public void onDisable() {

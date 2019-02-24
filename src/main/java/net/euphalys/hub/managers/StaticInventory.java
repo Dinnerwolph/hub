@@ -131,6 +131,6 @@ public class StaticInventory {
         else
             df = new SimpleDateFormat("HH:mm:ss");
         df.setTimeZone(timeZone);
-        return df.format(EuphalysApi.getInstance().getPlayer(uuid).getTimePlayed() + 0L);
+        return df.format((EuphalysApi.getInstance().getPlayer(uuid).getTimePlayed() + 0L)/1000);
     }
 }

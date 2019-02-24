@@ -1,10 +1,7 @@
 package net.euphalys.hub.gui.main;
 
-import com.google.common.io.ByteArrayDataOutput;
-import com.google.common.io.ByteStreams;
 import fr.dinnerwolph.otl.bukkit.BukkitOTL;
 import fr.dinnerwolph.otl.bukkit.server.Server;
-import net.euphalys.api.player.IEuphalysPlayer;
 import net.euphalys.api.player.IGroup;
 import net.euphalys.core.api.EuphalysApi;
 import net.euphalys.hub.Hub;
@@ -16,10 +13,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import us.myles.ViaVersion.api.Via;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Dinnerwolph
@@ -28,6 +27,8 @@ import java.util.Map;
 public class GuiSwitchHub extends AbstractGui {
 
     private final int page;
+    private final int version[] = {47, 110, 340, 404};
+    private final String server[] = {"Hub1-8", "Hub1-9", "Hub1-12", "Hub1-13"};
 
     GuiSwitchHub(Hub hub, int page) {
         super(hub);
@@ -43,11 +44,18 @@ public class GuiSwitchHub extends AbstractGui {
 
     @Override
     public void update(Player player) {
+        int playerVer = Via.getAPI().getPlayerVersion(player);
+        int count = -1;
+        for (int i : version)
+            if (playerVer >= i)
+                count++;
         List<Server> servers = new ArrayList();
-        BukkitOTL.getInstance().serverList.forEach((servername, server) -> {
-            if (servername.contains("Hub"))
-                servers.add(server);
-        });
+        for (String s : BukkitOTL.getInstance().serverList.keySet())
+            for (int i = 0; i < count + 1; i++)
+                if (BukkitOTL.getInstance().serverList.get(s).getServerName().startsWith(server[i]))
+                    servers.add(BukkitOTL.getInstance().serverList.get(s));
+
+
         int[] baseSlots = {10, 11, 12, 13, 14, 15, 16};
         int line = 0, slot = 0, i = 0;
         this.inventory.clear();
@@ -119,12 +127,16 @@ public class GuiSwitchHub extends AbstractGui {
 
         List<String> lore = new ArrayList();
         Map<String, String> groups = BukkitOTL.getInstance().hubgroup.get(hub.getServerName());
+        Map<Integer, IGroup> groupMap = new ConcurrentHashMap<>();
         try {
-            for (String s : groups.keySet()) {
-                IGroup group = EuphalysApi.getInstance().getGroup(Integer.parseInt(s));
-                lore.add(group.getName() + " §r: " + groups.get(s));
-            }
-        } catch (Exception e) {
+            groups.keySet().forEach((server) -> {
+                IGroup group = EuphalysApi.getInstance().getGroup(Integer.parseInt(server));
+                groupMap.put(group.getGroupId(), group);
+            });
+            for (int i = 100; i > 0; i--)
+                if (groupMap.get(i) != null)
+                    lore.add(groupMap.get(i).getName() + " §r: " + groups.get(String.valueOf(i)));
+        } catch (NullPointerException e) {
 
         }
 
