@@ -1,5 +1,7 @@
 package net.euphalys.hub.listener.player;
 
+import fr.dinnerwolph.otl.bukkit.BukkitOTL;
+import fr.dinnerwolph.otl.bukkit.server.Server;
 import net.euphalys.api.utils.IScoreboardSign;
 import net.euphalys.core.api.EuphalysApi;
 import net.euphalys.hub.Hub;
@@ -25,10 +27,9 @@ import org.bukkit.inventory.ItemStack;
 
 public class Join implements Listener {
 
-    @EventHandler(priority = EventPriority.MONITOR)
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        Hub.getInstance().getEventBus().onLogin(player);
         if (player.hasPermission("euphalys.joinmessage"))
             event.setJoinMessage(player.getDisplayName() + " §7§oa rejoint le serveur !");
         else
@@ -36,12 +37,21 @@ public class Join implements Listener {
         IScoreboardSign sign = EuphalysApi.getInstance().newScoreboardSign(player, "§6Project EpyCube");
         sign.create();
         sign.setLine(10, "§c ★ Work In Progress ★");
-        sign.setLine (11, "§6Bienvenue, §5" + player.getName());
+        sign.setLine(11, "§6Bienvenue, §5" + player.getName());
         sign.setLine(12, "§6Serveur : §5" + EuphalysApi.getInstance().getSProperty("name"));
-        sign.setLine (13, "§6Connectés :§5//TODO"); //TODO
-        sign.setLine (14, "§6Grade :" + EuphalysApi.getInstance().getPlayer(player.getUniqueId()).getGroup());
-
+        sign.setLine(13, "§6Connectés :§5" + NumberOfPlayer());
+        sign.setLine(14, "§6Grade :" + EuphalysApi.getInstance().getPlayer(player.getUniqueId()).getGroup().getName());
+        Hub.getInstance().scoreboardSignMap.put(player, sign);
+        Hub.getInstance().getEventBus().onLogin(player);
         Hub.getInstance().sendInformation();
+    }
+
+    private int NumberOfPlayer() {
+        int count = 0;
+        for (Server serv : BukkitOTL.getInstance().serverList.values()) {
+            count += serv.getOnlineAmount();
+        }
+        return count;
     }
 
     @EventHandler

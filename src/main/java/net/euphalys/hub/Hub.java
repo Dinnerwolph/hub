@@ -1,6 +1,7 @@
 package net.euphalys.hub;
 
 import net.euphalys.api.player.IEuphalysPlayer;
+import net.euphalys.api.utils.IScoreboardSign;
 import net.euphalys.core.api.EuphalysApi;
 import net.euphalys.hub.listener.ListenerManager;
 import net.euphalys.hub.managers.EventBus;
@@ -26,6 +27,7 @@ public class Hub extends JavaPlugin {
     private GuiManager guiManager;
     private EventBus eventBus;
     private PlayerManager playerManager;
+    public Map<Player, IScoreboardSign> scoreboardSignMap = new ConcurrentHashMap<>();
 
     @Override
     public void onEnable() {

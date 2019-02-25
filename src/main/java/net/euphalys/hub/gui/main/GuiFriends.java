@@ -41,7 +41,7 @@ public class GuiFriends extends AbstractGui {
         /**new String[]{"§6Statut : §7" +
          (target.isOnline() ? "§aConnecté ✔" : "§cDéconnecté ✖"), "§6Grade : §7" + target.getGroup().getName(),
          "Clic-droit pour retirer des amis.", (target.isOnline() ? "Clic-gauche pour rejoindre votre amis." : "")}*/
-        String[] lores = new String[]{"§6Statut: %1$s", "§6Grade : §7%2$s", "Clic-droit pour retirer des amis.", "%3$s"};
+        String[] lores = new String[]{"§6Statut: %1$s", "§6Grade : §7%1$s", "Clic-droit pour retirer des amis.", "%1$s"};
         for (int number = 0; number < euphaPlayer.getFriends().size(); number++) {
             if (i < (7 * (this.page - 1))) {
                 i++;
@@ -87,9 +87,9 @@ public class GuiFriends extends AbstractGui {
     }
 
     public String[] format(String[] format, Object... args) {
-        Formatter formatter = new Formatter();
         for (int i = 0; i < format.length; i++)
-            format[i] = formatter.format(format[i], args[i]).toString();
+            format[i] = new Formatter().format(format[i], args[i]).toString();
+
         return format;
     }
 }
