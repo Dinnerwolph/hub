@@ -74,7 +74,7 @@ public class StaticInventory {
         this.items.put(2, buildItemStack(Material.SULPHUR, 1, 0, "§1Poudre magique", new String[]{"§7\u25B6 Vous permet de masquer les autres joueurs."}));
         this.items.put(4, buildItemStack(Material.COMPASS, 1, 0, "§1Menu principal", new String[]{"§7\u25B6 Affiche les modes de jeux et autres hubs."}));
         this.items.put(6, buildItemStack(Material.NETHER_STAR, 1, 0, "§1Cosmétiques", new String[]{"§7\u25B6 Utilisez une monture ou des particules !"}));
-        this.items.put(19, buildHead(player.getName(), 1, "§1Profil : §7" + player.getName(), new String[]{"§6Temps de jeu : §9" + getTimePlayed(player.getUniqueId()), "§6Grade : " + EuphalysApi.getInstance().getPlayer(player.getUniqueId()).getGroup().getName()}));
+        this.items.put(19, buildHead(player.getName(), 1, "§1Profil : §7" + player.getName(), new String[]{"§6Temps de jeu : §9" + getTimePlayed(player.getUniqueId()), "§6Grade : " + EuphalysApi.getInstance().getPlayer(player.getUniqueId()).getGroup().getScore()}));
         this.items.put(25, buildItemStack(Material.ENCHANTMENT_TABLE, 1, 0, "§9Amis", new String[]{"§7\u25B6 Gestion des amis."}));
 
     }

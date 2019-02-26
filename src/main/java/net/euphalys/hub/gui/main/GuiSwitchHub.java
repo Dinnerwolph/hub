@@ -135,7 +135,7 @@ public class GuiSwitchHub extends AbstractGui {
             });
             for (int i = 100; i > 0; i--)
                 if (groupMap.get(i) != null)
-                    lore.add(groupMap.get(i).getName() + " §r: " + groups.get(String.valueOf(i)));
+                    lore.add(groupMap.get(i).getScore() + " §r: " + groups.get(String.valueOf(i)));
         } catch (NullPointerException e) {
 
         }
