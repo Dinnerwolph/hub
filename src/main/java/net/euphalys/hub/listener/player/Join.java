@@ -27,7 +27,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class Join implements Listener {
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if (player.hasPermission("euphalys.joinmessage"))
@@ -38,13 +38,12 @@ public class Join implements Listener {
         sign.create();
         sign.setLine(5, "§c ★ Work In Progress ★");
         sign.setLine(6, "§9Bienvenue, §b" + player.getName());
-        sign.setLine(7, "");
-        sign.setLine(8, "");
+        sign.setLine(7, "§1");
+        sign.setLine(8, "§2");
         sign.setLine(10, "§7⋙ §9Serveur : §b" + EuphalysApi.getInstance().getSProperty("name"));
         sign.setLine(11, "§7⋙ §9Connectés : §b" + NumberOfPlayer());
         sign.setLine(12, "§7⋙ §9Grade : " + EuphalysApi.getInstance().getPlayer(player.getUniqueId()).getGroup().getPrefix());
-        sign.setLine(13, "");
-        sign.setLine(14, "§7⋙ §bplay.epycube.fr");
+        sign.setLine(13, "§3");
         Hub.getInstance().scoreboardSignMap.put(player, sign);
         Hub.getInstance().getEventBus().onLogin(player);
         Hub.getInstance().sendInformation();
@@ -90,13 +89,15 @@ public class Join implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onLeave(PlayerQuitEvent event) {
-        Bukkit.getScheduler().runTaskLater(Hub.getInstance(), new Runnable() {
+        Bukkit.getScheduler().runTaskLaterAsynchronously(Hub.getInstance(), new Runnable() {
             @Override
             public void run() {
                 Hub.getInstance().sendInformation();
             }
-        }, 20 * 5);
+        }, 20 * 2);
+        Hub.getInstance().scoreboardSignMap.get(event.getPlayer()).destroy();
+        Hub.getInstance().scoreboardSignMap.remove(event.getPlayer());
     }
 }

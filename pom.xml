@@ -33,7 +33,7 @@
             <artifactId>spigot</artifactId>
             <version>1.9</version>
             <scope>system</scope>
-            <systemPath>${project.basedir}/../api/src/main/resources/spigot.jar</systemPath>
+            <systemPath>${project.basedir}/../api/spigot.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>us.myles</groupId>
