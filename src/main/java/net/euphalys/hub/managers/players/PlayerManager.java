@@ -34,7 +34,7 @@ public class PlayerManager extends AbstractManager {
         player.setHealth(20.0D);
         player.getInventory().clear();
         player.teleport(getSpawn());
-        player.sendTitle("§eBon jeu sur EpyCube !", "§f§l" + player.getName());
+        player.sendTitle("§eBon jeu sur Euphalys !", "§f§l" + player.getName());
         this.staticInventory.setInventoryToPlayer(player);
     }
 

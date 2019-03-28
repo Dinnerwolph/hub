@@ -31,12 +31,11 @@ public class Join implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if (player.hasPermission("euphalys.joinmessage"))
-            event.setJoinMessage(player.getDisplayName() + " §7§oa rejoint le serveur !");
+            event.setJoinMessage(player.getDisplayName() +" §7§oa rejoint le serveur !");
         else
             event.setJoinMessage("");
-        IScoreboardSign sign = EuphalysApi.getInstance().newScoreboardSign(player, "§6Project EpyCube");
+        IScoreboardSign sign = EuphalysApi.getInstance().newScoreboardSign(player, "§2Euphalys");
         sign.create();
-        sign.setLine(7, "§c ★ Work In Progress ★");
         sign.setLine(8, "§9Bienvenue, §b" + player.getName());
         sign.setLine(9, "§1");
         sign.setLine(10, "§7⋙ §9Serveur : §b" + EuphalysApi.getInstance().getSProperty("name"));
