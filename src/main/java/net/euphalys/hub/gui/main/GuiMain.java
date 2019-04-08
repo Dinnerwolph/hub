@@ -4,7 +4,6 @@ import net.euphalys.core.api.EuphalysApi;
 import net.euphalys.hub.Hub;
 import net.euphalys.hub.gui.AbstractGui;
 import net.euphalys.hub.gui.main.game.GuiShatteredSpace;
-import net.md_5.bungee.api.ChatColor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
