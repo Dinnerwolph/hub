@@ -27,8 +27,8 @@ import java.util.concurrent.ConcurrentHashMap;
 public class GuiSwitchHub extends AbstractGui {
 
     private final int page;
-    private final int version[] = {47, 110, 340, 404};
-    private final String server[] = {"Hub1-8", "Hub1-9", "Hub1-12", "Hub1-13"};
+    private final int version[] = {47, 110, 340, 404, 477};
+    private final String server[] = {"Hub1-8", "Hub1-9", "Hub1-12", "Hub1-13", "Hub1-14"};
 
     GuiSwitchHub(Hub hub, int page) {
         super(hub);
@@ -108,7 +108,7 @@ public class GuiSwitchHub extends AbstractGui {
     }
 
     private ItemStack getHubItem(Server hub) {
-        ItemStack glass = new ItemStack(Material.STAINED_GLASS, 1);
+        ItemStack glass = new ItemStack(net.euphalys.api.utils.Material.WHITE_STAINED_GLASS.getBukkitMaterial());
         ItemMeta meta = glass.getItemMeta();
         String baseName = "Hub " + hub.getServerName().replace("Hub", "") + " (" + hub.getOnlineAmount() + " joueur" + (hub.getOnlineAmount() > 1 ? "s" : "") + ")";
         if (hub.getOnlineAmount() <= 15) {

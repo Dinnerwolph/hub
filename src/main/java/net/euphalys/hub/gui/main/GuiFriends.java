@@ -37,7 +37,11 @@ public class GuiFriends extends AbstractGui {
         int[] baseSlots = {10, 11, 12, 13, 14, 15, 16};
         boolean more = false;
         IEuphalysPlayer euphaPlayer = EuphalysApi.getInstance().getPlayer(player.getUniqueId());
-        ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+        ItemStack skull;
+        if (EuphalysApi.getInstance().is1_14())
+            skull = new ItemStack(net.euphalys.api.utils.Material.PLAYER_HEAD.getBukkitMaterial());
+        else
+            skull = new ItemStack(net.euphalys.api.utils.Material.PLAYER_HEAD.getBukkitMaterial(), 1, (short) 3);
         /**new String[]{"§6Statut : §7" +
          (target.isOnline() ? "§aConnecté ✔" : "§cDéconnecté ✖"), "§6Grade : §7" + target.getGroup().getName(),
          "Clic-droit pour retirer des amis.", (target.isOnline() ? "Clic-gauche pour rejoindre votre amis." : "")}*/

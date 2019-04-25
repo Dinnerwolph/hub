@@ -22,10 +22,18 @@ public class GuiFriendsRemove extends AbstractGui {
 
     @Override
     public void display(Player player) {
+        ItemStack playerHead;
+        Material confirm = net.euphalys.api.utils.Material.LIME_TERRACOTTA.getBukkitMaterial();
+        Material cancel = net.euphalys.api.utils.Material.RED_TERRACOTTA.getBukkitMaterial();
         this.inventory = this.hub.getServer().createInventory(null, 9 * 3, "Menu des Amis - retirer " + playerName);
-        this.setHead(inventory, playerName, "§7" + playerName, new ItemStack(Material.SKULL_ITEM, 1, (short) 3), 13, new String[]{"Confirmer le retrait"}, "");
-        this.setSlotData(ChatColor.GREEN + "Confirmer ✔", Material.STAINED_CLAY, 11, null, "CONFIRM");
-        this.setSlotData(ChatColor.RED + "Annuler ✖", Material.STAINED_CLAY, 15, null, "CANCEL");
+        if (EuphalysApi.getInstance().is1_14()) {
+            playerHead = new ItemStack(net.euphalys.api.utils.Material.PLAYER_HEAD.getBukkitMaterial());
+        } else {
+            playerHead = new ItemStack(net.euphalys.api.utils.Material.PLAYER_HEAD.getBukkitMaterial(), 1, (short) 3);
+        }
+        this.setHead(inventory, playerName, "§7" + playerName, playerHead, 13, new String[]{"Confirmer le retrait"}, "");
+        this.setSlotData(ChatColor.GREEN + "Confirmer ✔", confirm, 11, null, "CONFIRM");
+        this.setSlotData(ChatColor.RED + "Annuler ✖", cancel, 15, null, "CANCEL");
         player.openInventory(inventory);
     }
 

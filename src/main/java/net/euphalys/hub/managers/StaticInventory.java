@@ -32,16 +32,18 @@ public class StaticInventory {
     }
 
     public boolean doInteraction(Player player, ItemStack stack) {
+        Material gunpowder = net.euphalys.api.utils.Material.GUNPOWDER.getBukkitMaterial();
+        Material enchanting_table = net.euphalys.api.utils.Material.ENCHANTING_TABLE.getBukkitMaterial();
         if (stack.getType() == Material.COMPASS) {
             this.hub.getGuiManager().openGui(player, new GuiMain(this.hub));
             return true;
-        } else if (stack.getType() == Material.SULPHUR) {
+        } else if (stack.getType() == gunpowder) {
             this.hideOrShowPlayers(player);
             return true;
         } else if (stack.getType() == Material.NETHER_STAR) {
             this.hub.getGuiManager().openGui(player, new GuiCosmetiques(this.hub));
             return true;
-        } else if (stack.getType() == Material.ENCHANTMENT_TABLE) {
+        } else if (stack.getType() == enchanting_table) {
             this.hub.getGuiManager().openGui(player, new GuiFriends(this.hub, 1));
             return true;
         }
@@ -60,7 +62,11 @@ public class StaticInventory {
     }
 
     private static ItemStack buildHead(String owner, int quantity, String name, String[] lores) {
-        ItemStack stack = new ItemStack(Material.SKULL_ITEM, quantity, (short) 3);
+        ItemStack stack;
+        if(EuphalysApi.getInstance().is1_14())
+            stack = new ItemStack(net.euphalys.api.utils.Material.PLAYER_HEAD.getBukkitMaterial(), quantity);
+        else
+            stack = new ItemStack(net.euphalys.api.utils.Material.PLAYER_HEAD.getBukkitMaterial(), quantity, (short) 3);
         SkullMeta meta = (SkullMeta) stack.getItemMeta();
         meta.setDisplayName(name);
         if (lores != null)
@@ -71,11 +77,13 @@ public class StaticInventory {
     }
 
     private void loadItems(Player player) {
-        this.items.put(2, buildItemStack(Material.SULPHUR, 1, 0, "§1Poudre magique", new String[]{"§7\u25B6 Vous permet de masquer les autres joueurs."}));
+        Material gunpowder = net.euphalys.api.utils.Material.GUNPOWDER.getBukkitMaterial();
+        Material enchanting_table = net.euphalys.api.utils.Material.ENCHANTING_TABLE.getBukkitMaterial();
+        this.items.put(2, buildItemStack(gunpowder, 1, 0, "§1Poudre magique", new String[]{"§7\u25B6 Vous permet de masquer les autres joueurs."}));
         this.items.put(4, buildItemStack(Material.COMPASS, 1, 0, "§1Menu principal", new String[]{"§7\u25B6 Affiche les modes de jeux et autres hubs."}));
         this.items.put(6, buildItemStack(Material.NETHER_STAR, 1, 0, "§1Cosmétiques", new String[]{"§7\u25B6 Utilisez une monture ou des particules !"}));
         this.items.put(19, buildHead(player.getName(), 1, "§1Profil : §7" + player.getName(), new String[]{"§6Temps de jeu : §9" + getTimePlayed(player.getUniqueId()), "§6Grade : " + EuphalysApi.getInstance().getPlayer(player.getUniqueId()).getGroup().getScore()}));
-        this.items.put(25, buildItemStack(Material.ENCHANTMENT_TABLE, 1, 0, "§9Amis", new String[]{"§7\u25B6 Gestion des amis."}));
+        this.items.put(25, buildItemStack(enchanting_table, 1, 0, "§9Amis", new String[]{"§7\u25B6 Gestion des amis."}));
 
     }
 
@@ -115,7 +123,7 @@ public class StaticInventory {
             target.sendMessage("§7Pouf, mais où est passé la magie ?");
         }
 
-        target.playSound(target.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1.0F, 1.0F);
+        target.playSound(target.getLocation(), Sound.EXPLODE, 1.0F, 1.0F);
     }
 
     private boolean isHinding(Player player) {

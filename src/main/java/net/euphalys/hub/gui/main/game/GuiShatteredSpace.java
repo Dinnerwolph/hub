@@ -103,7 +103,7 @@ public class GuiShatteredSpace extends AbstractGui {
     }
 
     private ItemStack getHubItem(Server hub) {
-        ItemStack glass = new ItemStack(Material.STAINED_GLASS, 1);
+        ItemStack glass = new ItemStack(net.euphalys.api.utils.Material.WHITE_STAINED_GLASS.getBukkitMaterial(), 1);
         ItemMeta meta = glass.getItemMeta();
         String baseName = "ShatteredSpace " + hub.getServerName().replace(template, "") + " (" + hub.getOnlineAmount() + " joueur" + (hub.getOnlineAmount() > 1 ? "s" : "") + ")";
         if (hub.getOnlineAmount() <= 15) {

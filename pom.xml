@@ -13,13 +13,17 @@
             <id>viaversion-repo</id>
             <url>https://repo.viaversion.com</url>
         </repository>
+        <repository>
+            <id>bob</id>
+            <url>http://euphalys.net:8081/artifactory/spigot/</url>
+        </repository>
     </repositories>
 
     <dependencies>
         <dependency>
             <groupId>net.euphalys</groupId>
             <artifactId>api</artifactId>
-            <version>0.5.1</version>
+            <version>0.5.4</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -29,11 +33,16 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>spigot</groupId>
+            <groupId>org.spigotmc</groupId>
             <artifactId>spigot</artifactId>
-            <version>1.9</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/../api/spigot.jar</systemPath>
+            <version>1.8.8-R0.1-20190425.090436-1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-1.14</artifactId>
+            <version>1.14-R0.1-20190425.125615-1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>us.myles</groupId>
