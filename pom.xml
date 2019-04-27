@@ -14,8 +14,8 @@
             <url>https://repo.viaversion.com</url>
         </repository>
         <repository>
-            <id>bob</id>
-            <url>http://euphalys.net:8081/artifactory/spigot/</url>
+            <id>spigot</id>
+            <url>https://mvn.euphalys.net/artifactory/spigot/</url>
         </repository>
     </repositories>
 
