@@ -15,18 +15,20 @@ import org.bukkit.entity.Player;
 public class PlayerManager extends AbstractManager {
 
     private final StaticInventory staticInventory;
+    private final Location spawn;
     private boolean canBuild;
 
-    public PlayerManager(Hub hub) {
+    public PlayerManager(final Hub hub) {
         super(hub);
         this.staticInventory = new StaticInventory(hub);
+        this.spawn = new Location(Bukkit.getWorlds().get(0), -15.5, 12.5, 88.5);
         this.canBuild = false;
     }
 
     public void onDisable() {
     }
 
-    public void onLogin(Player player) {
+    public void onLogin(final Player player) {
         player.setGameMode(GameMode.ADVENTURE);
         player.setWalkSpeed(0.2F);
         player.setAllowFlight(false);
@@ -38,15 +40,15 @@ public class PlayerManager extends AbstractManager {
         this.staticInventory.setInventoryToPlayer(player);
     }
 
-    public void onLogout(Player player) {
+    public void onLogout(final Player player) {
     }
 
-    public void setBuild(boolean canBuild) {
+    public void setBuild(final boolean canBuild) {
         this.canBuild = canBuild;
     }
 
     public Location getSpawn() {
-        return new Location(Bukkit.getWorlds().get(0), -15.5, 33.5, 88.5);
+        return spawn;
     }
 
     public StaticInventory getStaticInventory() {

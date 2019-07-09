@@ -12,7 +12,7 @@ import org.bukkit.event.weather.WeatherChangeEvent;
 public class Server implements Listener {
 
     @EventHandler
-    public void onWeatherChanger(WeatherChangeEvent event) {
+    public void onWeatherChanger(final WeatherChangeEvent event) {
         World world = event.getWorld();
         if (world.hasStorm()) {
             world.setWeatherDuration(0);

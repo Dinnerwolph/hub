@@ -16,11 +16,11 @@ import java.util.List;
  */
 
 public class GuiCosmetiques extends AbstractGui {
-    public GuiCosmetiques(Hub hub) {
+    public GuiCosmetiques(final Hub hub) {
         super(hub);
     }
 
-    public void display(Player player) {
+    public void display(final Player player) {
         Material exp_bottle = net.euphalys.api.utils.Material.EXPERIENCE_BOTTLE.getBukkitMaterial();
         ItemStack skeletonSkull;
         if (EuphalysApi.getInstance().is1_14()) {
@@ -41,7 +41,7 @@ public class GuiCosmetiques extends AbstractGui {
         player.openInventory(this.inventory);
     }
 
-    private static String[] makeButtonLore(String[] description, boolean clickOpen) {
+    private static String[] makeButtonLore(final String[] description, final boolean clickOpen) {
         List<String> lore = new ArrayList();
         String[] loreArray = new String[0];
         if (description != null) {

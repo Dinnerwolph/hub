@@ -2,3 +2,5 @@ name: EpyCubeHub
 authors: [Dinnerwolph]
 version: 1.0.0
 main: net.euphalys.hub.Hub
+commands:
+  test:

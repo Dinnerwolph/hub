@@ -15,13 +15,13 @@ public class GuiFriendsRemove extends AbstractGui {
 
     private final String playerName;
 
-    public GuiFriendsRemove(Hub hub, String playerName) {
+    public GuiFriendsRemove(final Hub hub, final String playerName) {
         super(hub);
         this.playerName = playerName;
     }
 
     @Override
-    public void display(Player player) {
+    public void display(final Player player) {
         ItemStack playerHead;
         Material confirm = net.euphalys.api.utils.Material.LIME_TERRACOTTA.getBukkitMaterial();
         Material cancel = net.euphalys.api.utils.Material.RED_TERRACOTTA.getBukkitMaterial();
@@ -38,7 +38,7 @@ public class GuiFriendsRemove extends AbstractGui {
     }
 
     @Override
-    public void onClick(Player player, ItemStack stack, String action, ClickType clickType) {
+    public void onClick(final Player player, final ItemStack stack, final String action, final ClickType clickType) {
         if (action.equals("CANCEL"))
             this.hub.getGuiManager().openGui(player, new GuiFriends(this.hub, 1));
         else if (action.equals("CONFIRM")) {

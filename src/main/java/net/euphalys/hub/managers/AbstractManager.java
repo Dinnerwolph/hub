@@ -10,12 +10,12 @@ public abstract class AbstractManager implements EntryPoints {
     protected final Hub hub;
     private String filename;
 
-    public AbstractManager(Hub hub, String filename) {
+    public AbstractManager(final Hub hub, final String filename) {
         this(hub);
         this.filename = filename;
     }
 
-    public AbstractManager(Hub hub) {
+    public AbstractManager(final Hub hub) {
         this.hub = hub;
     }
 }

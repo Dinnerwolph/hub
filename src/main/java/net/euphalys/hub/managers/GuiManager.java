@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentMap;
 public class GuiManager extends AbstractManager {
     private final ConcurrentMap<UUID, AbstractGui> playersGui = new ConcurrentHashMap();
 
-    public GuiManager(Hub hub) {
+    public GuiManager(final Hub hub) {
         super(hub);
     }
 
@@ -24,10 +24,10 @@ public class GuiManager extends AbstractManager {
         this.hub.getServer().getOnlinePlayers().forEach(this::onLogout);
     }
 
-    public void onLogin(Player player) {
+    public void onLogin(final Player player) {
     }
 
-    public void onLogout(Player player) {
+    public void onLogout(final Player player) {
         if (this.playersGui.containsKey(player.getUniqueId())) {
             ((AbstractGui) this.playersGui.get(player.getUniqueId())).onClose(player);
             this.playersGui.remove(player.getUniqueId());
@@ -35,7 +35,7 @@ public class GuiManager extends AbstractManager {
 
     }
 
-    public void openGui(Player player, AbstractGui gui) {
+    public void openGui(final Player player, final AbstractGui gui) {
         if (this.playersGui.containsKey(player.getUniqueId()))
             closeGui(player);
 
@@ -43,12 +43,12 @@ public class GuiManager extends AbstractManager {
         gui.display(player);
     }
 
-    public void closeGui(Player player) {
+    public void closeGui(final Player player) {
         player.closeInventory();
         this.playersGui.remove(player.getUniqueId());
     }
 
-    public void removeClosedGui(Player player) {
+    public void removeClosedGui(final Player player) {
         if (this.playersGui.containsKey(player.getUniqueId())) {
             this.getPlayerGui(player).onClose(player);
             this.playersGui.remove(player.getUniqueId());
@@ -56,11 +56,11 @@ public class GuiManager extends AbstractManager {
 
     }
 
-    public AbstractGui getPlayerGui(HumanEntity humanEntity) {
+    public AbstractGui getPlayerGui(final HumanEntity humanEntity) {
         return this.getPlayerGui(humanEntity.getUniqueId());
     }
 
-    public AbstractGui getPlayerGui(UUID uuid) {
+    public AbstractGui getPlayerGui(final UUID uuid) {
         if (playersGui.containsKey(uuid))
             return this.playersGui.get(uuid);
         return null;

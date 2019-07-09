@@ -17,46 +17,44 @@ public class GuiFriends extends AbstractGui {
 
     private final int page;
 
-    public GuiFriends(Hub hub, int page) {
+    public GuiFriends(final Hub hub, final int page) {
         super(hub);
         this.page = page;
     }
 
     @Override
-    public void display(Player player) {
+    public void display(final Player player) {
         this.inventory = this.hub.getServer().createInventory(null, 9 * 3, "Menu des Amis (Page " + this.page + ")");
         update(player);
         player.openInventory(inventory);
     }
 
     @Override
-    public void update(Player player) {
+    public void update(final Player player) {
         this.inventory.clear();
         this.setBackSlot();
         int line = 0, slot = 0, i = 0;
         int[] baseSlots = {10, 11, 12, 13, 14, 15, 16};
         boolean more = false;
-        IEuphalysPlayer euphaPlayer = EuphalysApi.getInstance().getPlayer(player.getUniqueId());
+        final IEuphalysPlayer euphaPlayer = EuphalysApi.getInstance().getPlayer(player.getUniqueId());
         ItemStack skull;
         if (EuphalysApi.getInstance().is1_14())
             skull = new ItemStack(net.euphalys.api.utils.Material.PLAYER_HEAD.getBukkitMaterial());
         else
             skull = new ItemStack(net.euphalys.api.utils.Material.PLAYER_HEAD.getBukkitMaterial(), 1, (short) 3);
-        /**new String[]{"§6Statut : §7" +
-         (target.isOnline() ? "§aConnecté ✔" : "§cDéconnecté ✖"), "§6Grade : §7" + target.getGroup().getName(),
-         "Clic-droit pour retirer des amis.", (target.isOnline() ? "Clic-gauche pour rejoindre votre amis." : "")}*/
         String[] lores = new String[]{"§6Statut: %1$s", "§6Grade : §7%1$s", "Clic-droit pour retirer des amis.", "%1$s"};
         for (int number = 0; number < euphaPlayer.getFriends().size(); number++) {
+            System.out.println(i);
             if (i < (7 * (this.page - 1))) {
                 i++;
                 continue;
-            } else if (i > ((7 * (this.page * 1) + (baseSlots.length * 3)))) {
+            } else if (i > ((7 * (this.page - 1) + baseSlots.length)) - 1) {
                 more = true;
                 break;
             }
             String targetName = euphaPlayer.getFriends().get(number);
             IEuphalysPlayer target = EuphalysApi.getInstance().getPlayer(targetName);
-            this.setHead(inventory, targetName, "§7" + targetName, skull,
+            this.setHead(inventory, targetName, "§7" + targetName, skull.clone(),
                     baseSlots[slot] + (9 * line), format(lores, (target.isOnline() ? "§aConnecté ✔" : "§cDéconnecté ✖"),
                             target.getGroup().getName(), "", (target.isOnline() ? "Clic-gauche pour rejoindre votre amis." : "")), (target.isOnline() ? "JOIN_" + euphaPlayer.getFriends().get(number) : ""),
                     "", "REMOVE_" + euphaPlayer.getFriends().get(number));
@@ -76,7 +74,7 @@ public class GuiFriends extends AbstractGui {
     }
 
     @Override
-    public void onClick(Player player, ItemStack stack, String action, ClickType clickType) {
+    public void onClick(final Player player, final ItemStack stack, String action, final ClickType clickType) {
         if (action.equals("page_back"))
             this.hub.getGuiManager().openGui(player, new GuiFriends(this.hub, (this.page - 1)));
         else if (action.equals("page_next"))
@@ -90,10 +88,11 @@ public class GuiFriends extends AbstractGui {
             EuphalysApi.getInstance().getPlayer(player.getUniqueId()).sendToServer(EuphalysApi.getInstance().getPlayer(action.replace("JOIN_", "")).getServer());
     }
 
-    public String[] format(String[] format, Object... args) {
-        for (int i = 0; i < format.length; i++)
-            format[i] = new Formatter().format(format[i], args[i]).toString();
+    public String[] format(final String[] format, final Object... args) {
+        String[] retformat = format.clone();
+        for (int i = 0; i < retformat.length; i++)
+            retformat[i] = new Formatter().format(retformat[i], args[i]).toString();
 
-        return format;
+        return retformat;
     }
 }

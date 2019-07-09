@@ -15,14 +15,14 @@ import org.bukkit.inventory.PlayerInventory;
 
 public class Gui implements Listener {
 
-    private Hub hub;
+    private final Hub hub;
 
-    public Gui(Hub hub) {
+    public Gui(final Hub hub) {
         this.hub = hub;
     }
 
     @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
+    public void onInventoryClick(final InventoryClickEvent event) {
         if (event.getWhoClicked() instanceof Player) {
             Player player = (Player) event.getWhoClicked();
             AbstractGui currentGui = this.hub.getGuiManager().getPlayerGui(player);
@@ -43,7 +43,7 @@ public class Gui implements Listener {
     }
 
     @EventHandler
-    public void onInventoryClose(InventoryCloseEvent event) {
+    public void onInventoryClose(final InventoryCloseEvent event) {
         if (this.hub.getGuiManager().getPlayerGui(event.getPlayer()) != null) {
             this.hub.getGuiManager().removeClosedGui((Player) event.getPlayer());
         }

@@ -16,12 +16,12 @@ import org.bukkit.inventory.ItemStack;
 
 public class GuiMain extends AbstractGui {
 
-    public GuiMain(Hub hub) {
+    public GuiMain(final Hub hub) {
         super(hub);
     }
 
     @Override
-    public void display(Player player) {
+    public void display(final Player player) {
         this.inventory = this.hub.getServer().createInventory(null, 9 * 6, "Menu Principal");
         this.setSlotData("Build", Material.GRASS, 12, new String[]{}, "build");
         this.setSlotData(ChatColor.DARK_GREEN + "Accès au serveurs de tests (Build)", Material.ENDER_PEARL, 13, new String[]{}, "buildtest");
@@ -34,7 +34,7 @@ public class GuiMain extends AbstractGui {
     }
 
     @Override
-    public void onClick(Player player, ItemStack stack, String action, ClickType clickType) {
+    public void onClick(final Player player, final ItemStack stack, final String action, final ClickType clickType) {
         if (action.equals("switch_hub"))
             this.hub.getGuiManager().openGui(player, new GuiSwitchHub(this.hub, 1));
         else if (action.equals("build"))

@@ -28,7 +28,7 @@ import org.bukkit.inventory.ItemStack;
 public class Join implements Listener {
 
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
+    public void onPlayerJoin(final PlayerJoinEvent event) {
         Player player = event.getPlayer();
         if (player.hasPermission("euphalys.joinmessage"))
             event.setJoinMessage(player.getDisplayName() +" §7§oa rejoint le serveur !");
@@ -56,7 +56,7 @@ public class Join implements Listener {
     }
 
     @EventHandler
-    public void onEntityDamage(EntityDamageEvent event) {
+    public void onEntityDamage(final EntityDamageEvent event) {
         Entity entity = event.getEntity();
         event.setCancelled(true);
         if (entity.getType() == EntityType.PLAYER) {
@@ -69,17 +69,17 @@ public class Join implements Listener {
 
 
     @EventHandler
-    public void onEntityDamageByOther(EntityDamageByEntityEvent event) {
+    public void onEntityDamageByOther(final EntityDamageByEntityEvent event) {
         event.setCancelled(true);
     }
 
     @EventHandler
-    public void onFoodLevelChange(FoodLevelChangeEvent event) {
+    public void onFoodLevelChange(final FoodLevelChangeEvent event) {
         event.setCancelled(true);
     }
 
     @EventHandler
-    public void onPlayerInteract(PlayerInteractEvent event) {
+    public void onPlayerInteract(final PlayerInteractEvent event) {
         Player player = event.getPlayer();
         ItemStack currentItem = event.getItem();
         if (currentItem != null) {
@@ -88,7 +88,7 @@ public class Join implements Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
-    public void onLeave(PlayerQuitEvent event) {
+    public void onLeave(final PlayerQuitEvent event) {
         Bukkit.getScheduler().runTaskLaterAsynchronously(Hub.getInstance(), new Runnable() {
             @Override
             public void run() {

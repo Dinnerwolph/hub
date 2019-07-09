@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import us.myles.ViaVersion.util.ConcurrentList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,27 +30,27 @@ public abstract class PageGui extends AbstractGui {
     protected final int page;
     private final String template;
 
-    public PageGui(Hub hub, int page, String template) {
+    public PageGui(final Hub hub, final int page, final String template) {
         super(hub);
         this.page = page;
         this.template = template;
     }
 
     @Override
-    public void update(Player player) {
-        List<Server> servers = new ArrayList();
+    public void update(final Player player) {
+        final List<Server> servers = new ConcurrentList<>();
 
         BukkitOTL.getInstance().serverList.forEach((servername, server) -> {
             if (servername.startsWith(template))
                 if (server.getStatus().equals("WAITING"))
                     servers.add(server);
         });
-        int[] baseSlots = {10, 11, 12, 13, 14, 15, 16};
+        final int[] baseSlots = {10, 11, 12, 13, 14, 15, 16};
         int line = 0, slot = 0, i = 0;
         this.inventory.clear();
         this.setBackSlot();
         boolean more = false;
-        for (Server server : servers) {
+        for (final Server server : servers) {
             if (i < (7 * (this.page - 1))) {
                 i++;
                 continue;
@@ -76,13 +77,13 @@ public abstract class PageGui extends AbstractGui {
     }
 
     @Override
-    public void onClick(Player player, ItemStack stack, String action, ClickType clickType) {
+    public void onClick(final Player player, final ItemStack stack, final String action, final ClickType clickType) {
         if (action.startsWith(template)) {
             if (BukkitOTL.getInstance().serverList.get(action).getOnlineAmount() >= BukkitOTL.getInstance().serverList.get(action).getMaxAmount()) {
                 player.sendMessage(ChatColor.RED + "Ce Hub est plein, vous ne pouvez pas y aller.");
                 return;
             }
-            ByteArrayDataOutput out = ByteStreams.newDataOutput();
+            final ByteArrayDataOutput out = ByteStreams.newDataOutput();
             out.writeUTF("Connect");
             out.writeUTF(action);
             player.sendPluginMessage(this.hub, "BungeeCord", out.toByteArray());
@@ -94,9 +95,9 @@ public abstract class PageGui extends AbstractGui {
             this.hub.getGuiManager().openGui(player, new GuiMain(this.hub));
     }
 
-    private ItemStack getHubItem(Server hub) {
+    private ItemStack getHubItem(final Server hub) {
         ItemStack glass;
-        String baseName = "ShatteredSpace " + hub.getServerName().replace(template, "") + " (" + hub.getOnlineAmount() + " joueur" + (hub.getOnlineAmount() > 1 ? "s" : "") + ")";
+        final String baseName = "ShatteredSpace " + hub.getServerName().replace(template, "") + " (" + hub.getOnlineAmount() + " joueur" + (hub.getOnlineAmount() > 1 ? "s" : "") + ")";
         if (hub.getOnlineAmount() <= 15)
             glass = getGlass(net.euphalys.api.utils.Material.LIME_STAINED_GLASS.getBukkitMaterial(), DyeColor.GREEN, "§a" + baseName);
         else if (hub.getOnlineAmount() <= 30)
@@ -105,7 +106,7 @@ public abstract class PageGui extends AbstractGui {
             glass = getGlass(net.euphalys.api.utils.Material.RED_STAINED_GLASS.getBukkitMaterial(), DyeColor.RED, "§c" + baseName);
         else
             glass = getGlass(net.euphalys.api.utils.Material.ORANGE_STAINED_GLASS.getBukkitMaterial(), DyeColor.ORANGE, "§6" + baseName);
-        ItemMeta meta = glass.getItemMeta();
+        final ItemMeta meta = glass.getItemMeta();
         List<String> lore = new ArrayList();
         Map<String, String> groups = BukkitOTL.getInstance().hubgroup.get(hub.getServerName());
         try {
@@ -123,7 +124,7 @@ public abstract class PageGui extends AbstractGui {
         return glass;
     }
 
-    private ItemStack getGlass(Material material, DyeColor color, String name) {
+    private ItemStack getGlass(final Material material, final DyeColor color, final String name) {
         ItemStack itemStack = new ItemStack(material);
         itemStack.setDurability(color.getWoolData());
         ItemMeta meta = itemStack.getItemMeta();

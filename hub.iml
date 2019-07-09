@@ -11,7 +11,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="api" scope="PROVIDED" />
-    <orderEntry type="library" scope="PROVIDED" name="Maven: fr.dinnerwolph:OTL:0.3.2" level="project" />
+    <orderEntry type="module" module-name="OTL" scope="PROVIDED" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.yaml:snakeyaml:1.20" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: io.netty:netty-all:4.1.23.Final" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />

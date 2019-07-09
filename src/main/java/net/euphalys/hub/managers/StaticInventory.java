@@ -15,6 +15,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Dinnerwolph
@@ -22,16 +23,16 @@ import java.util.*;
 
 public class StaticInventory {
     private final Hub hub;
-    private final HashMap<Integer, ItemStack> items;
-    private final HashMap<Player, Boolean> hide;
+    private final Map<Integer, ItemStack> items;
+    private final Map<Player, Boolean> hide;
 
-    public StaticInventory(Hub hub) {
+    public StaticInventory(final Hub hub) {
         this.hub = hub;
-        this.items = new HashMap();
-        this.hide = new HashMap();
+        this.items = new ConcurrentHashMap<>();
+        this.hide = new ConcurrentHashMap<>();
     }
 
-    public boolean doInteraction(Player player, ItemStack stack) {
+    public boolean doInteraction(final Player player, final ItemStack stack) {
         Material gunpowder = net.euphalys.api.utils.Material.GUNPOWDER.getBukkitMaterial();
         Material enchanting_table = net.euphalys.api.utils.Material.ENCHANTING_TABLE.getBukkitMaterial();
         if (stack.getType() == Material.COMPASS) {
@@ -50,7 +51,7 @@ public class StaticInventory {
         return false;
     }
 
-    private static ItemStack buildItemStack(Material material, int quantity, int data, String name, String[] lores) {
+    private static ItemStack buildItemStack(final Material material, final int quantity, final int data, final String name, final String[] lores) {
         ItemStack stack = new ItemStack(material, quantity, (short) data);
         ItemMeta meta = stack.getItemMeta();
         meta.setDisplayName(name);
@@ -61,13 +62,22 @@ public class StaticInventory {
         return stack;
     }
 
-    private static ItemStack buildHead(String owner, int quantity, String name, String[] lores) {
+    private ItemStack buildHead(final String owner, final int quantity, final String name, final String[] lores) {
         ItemStack stack;
-        if(EuphalysApi.getInstance().is1_14())
+        if (EuphalysApi.getInstance().is1_14())
             stack = new ItemStack(net.euphalys.api.utils.Material.PLAYER_HEAD.getBukkitMaterial(), quantity);
         else
             stack = new ItemStack(net.euphalys.api.utils.Material.PLAYER_HEAD.getBukkitMaterial(), quantity, (short) 3);
-        SkullMeta meta = (SkullMeta) stack.getItemMeta();
+        SkullMeta meta;
+        if (hub.skullCache.containsKey(owner)) {
+            stack = hub.skullCache.get(owner);
+            meta = (SkullMeta) stack.getItemMeta();
+        } else {
+            meta = (SkullMeta) stack.getItemMeta();
+            meta.setOwner(owner);
+            stack.setItemMeta(meta);
+            hub.skullCache.put(owner, stack);
+        }
         meta.setDisplayName(name);
         if (lores != null)
             meta.setLore(Arrays.asList(lores));
@@ -76,7 +86,7 @@ public class StaticInventory {
         return stack;
     }
 
-    private void loadItems(Player player) {
+    private void loadItems(final Player player) {
         Material gunpowder = net.euphalys.api.utils.Material.GUNPOWDER.getBukkitMaterial();
         Material enchanting_table = net.euphalys.api.utils.Material.ENCHANTING_TABLE.getBukkitMaterial();
         this.items.put(2, buildItemStack(gunpowder, 1, 0, "§1Poudre magique", new String[]{"§7\u25B6 Vous permet de masquer les autres joueurs."}));
@@ -87,7 +97,7 @@ public class StaticInventory {
 
     }
 
-    public void setInventoryToPlayer(Player player) {
+    public void setInventoryToPlayer(final Player player) {
         loadItems(player);
         Iterator var2 = this.items.keySet().iterator();
 
@@ -98,7 +108,7 @@ public class StaticInventory {
 
     }
 
-    private void hideOrShowPlayers(Player target) {
+    private void hideOrShowPlayers(final Player target) {
         Iterator var2;
         Player players;
         if (!this.isHinding(target)) {
@@ -126,19 +136,19 @@ public class StaticInventory {
         target.playSound(target.getLocation(), Sound.EXPLODE, 1.0F, 1.0F);
     }
 
-    private boolean isHinding(Player player) {
+    private boolean isHinding(final Player player) {
         return this.hide.containsKey(player);
     }
 
-    private String getTimePlayed(UUID uuid) {
+    private String getTimePlayed(final UUID uuid) {
         float time = EuphalysApi.getInstance().getPlayer(uuid).getTimePlayed() + 0L;
         TimeZone timeZone = TimeZone.getTimeZone("UTC");
         SimpleDateFormat df;
-        if(time >= 86400000)
+        if (time >= 86_400_000)
             df = new SimpleDateFormat("DD HH:mm:ss");
         else
             df = new SimpleDateFormat("HH:mm:ss");
         df.setTimeZone(timeZone);
-        return df.format((EuphalysApi.getInstance().getPlayer(uuid).getTimePlayed() + 0L)/1000);
+        return df.format((EuphalysApi.getInstance().getPlayer(uuid).getTimePlayed() + 0L) / 1000);
     }
 }

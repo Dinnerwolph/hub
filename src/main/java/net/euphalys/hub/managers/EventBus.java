@@ -13,7 +13,7 @@ public class EventBus implements EntryPoints {
 
     private List<AbstractManager> managers = new ArrayList();
 
-     public void registerManager(AbstractManager manager) {
+     public void registerManager(final AbstractManager manager) {
         this.managers.add(manager);
     }
 
@@ -23,14 +23,14 @@ public class EventBus implements EntryPoints {
     }
 
     @Override
-    public void onLogin(Player player) {
+    public void onLogin(final Player player) {
         this.managers.forEach(manager -> {
             manager.onLogin(player);
         });
     }
 
     @Override
-    public void onLogout(Player player) {
+    public void onLogout(final Player player) {
         this.managers.forEach(manager -> {
             manager.onLogout(player);
         });

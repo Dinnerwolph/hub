@@ -3,6 +3,7 @@ package net.euphalys.hub;
 import net.euphalys.api.player.IEuphalysPlayer;
 import net.euphalys.api.utils.IScoreboardSign;
 import net.euphalys.core.api.EuphalysApi;
+import net.euphalys.hub.commands.Test;
 import net.euphalys.hub.listener.ListenerManager;
 import net.euphalys.hub.managers.EventBus;
 import net.euphalys.hub.managers.GuiManager;
@@ -10,6 +11,7 @@ import net.euphalys.hub.managers.players.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.simple.JSONObject;
 
@@ -27,11 +29,14 @@ public class Hub extends JavaPlugin {
     private GuiManager guiManager;
     private EventBus eventBus;
     private PlayerManager playerManager;
-    public Map<Player, IScoreboardSign> scoreboardSignMap = new ConcurrentHashMap<>();
+    public Map<Player, IScoreboardSign> scoreboardSignMap;
+    public Map<String, ItemStack> skullCache;
 
     @Override
     public void onEnable() {
         instance = this;
+        this.scoreboardSignMap = new ConcurrentHashMap<>();
+        this.skullCache = new ConcurrentHashMap<>();
         this.world = getServer().getWorlds().get(0);
         this.world.setGameRuleValue("randomTickSpeed", "0");
         this.world.setGameRuleValue("doDaylightCycle", "false");
@@ -41,6 +46,7 @@ public class Hub extends JavaPlugin {
         this.eventBus = new EventBus();
         this.eventBus.registerManager(new PlayerManager(this));
         new ListenerManager();
+        getCommand("test").setExecutor(new Test());
     }
 
     public GuiManager getGuiManager() {
@@ -60,16 +66,17 @@ public class Hub extends JavaPlugin {
     }
 
     public void sendInformation() {
-        Map<Integer, Integer> info = new ConcurrentHashMap<>();
-        JSONObject object = new JSONObject();
-        JSONObject map = new JSONObject();
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            IEuphalysPlayer euphalysPlayer = EuphalysApi.getInstance().getPlayer(player.getUniqueId());
-            int groupid = euphalysPlayer.getGroup().getGroupId();
-            if (info.get(groupid) == null)
+        final Map<Integer, Integer> info = new ConcurrentHashMap<>();
+        final JSONObject object = new JSONObject();
+        final JSONObject map = new JSONObject();
+        for (final Player player : Bukkit.getOnlinePlayers()) {
+            final IEuphalysPlayer euphalysPlayer = EuphalysApi.getInstance().getPlayer(player.getUniqueId());
+            final int groupid = euphalysPlayer.getGroup().getGroupId();
+            if (info.get(groupid) == null) {
                 info.put(groupid, 1);
-            else
+            } else {
                 info.put(groupid, info.get(groupid) + 1);
+            }
             object.clear();
             map.clear();
             map.putAll(info);

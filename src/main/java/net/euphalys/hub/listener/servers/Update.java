@@ -4,7 +4,6 @@ import fr.dinnerwolph.otl.bukkit.BukkitOTL;
 import fr.dinnerwolph.otl.bukkit.event.ServerUpdateEvent;
 import fr.dinnerwolph.otl.bukkit.server.Server;
 import net.euphalys.api.utils.IScoreboardSign;
-import net.euphalys.core.api.EuphalysApi;
 import net.euphalys.hub.Hub;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -17,7 +16,7 @@ import org.bukkit.event.Listener;
 public class Update implements Listener {
 
     @EventHandler
-    public void onServerUpdate(ServerUpdateEvent event) {
+    public void onServerUpdate(final ServerUpdateEvent event) {
         IScoreboardSign sign;
         System.out.println(Hub.getInstance().scoreboardSignMap.keySet().toString());
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {

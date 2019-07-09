@@ -27,23 +27,23 @@ import java.util.concurrent.ConcurrentHashMap;
 public class GuiSwitchHub extends AbstractGui {
 
     private final int page;
-    private final int version[] = {47, 110, 340, 477};
+    private final int version[] = {47, 110, 340, 485};
     private final String server[] = {"Hub1-8", "Hub1-9", "Hub1-12", "Hub1-14"};
 
-    GuiSwitchHub(Hub hub, int page) {
+    GuiSwitchHub(final Hub hub, final int page) {
         super(hub);
         this.page = page;
     }
 
     @Override
-    public void display(Player player) {
+    public void display(final Player player) {
         this.inventory = this.hub.getServer().createInventory(null, 54, "Changez de hub (Page " + this.page + ")");
         this.update(player);
         player.openInventory(this.inventory);
     }
 
     @Override
-    public void update(Player player) {
+    public void update(final Player player) {
         int playerVer = Via.getAPI().getPlayerVersion(player);
         int count = -1;
         for (int i : version)
@@ -65,7 +65,7 @@ public class GuiSwitchHub extends AbstractGui {
             if (i < (7 * (this.page - 1))) {
                 i++;
                 continue;
-            } else if (i > ((7 * (this.page - 1) + (baseSlots.length * 3)))) {
+            } else if (i > ((7 * (this.page - 1) + (baseSlots.length * 3))) - 1) {
                 more = true;
                 break;
             }
@@ -88,7 +88,7 @@ public class GuiSwitchHub extends AbstractGui {
     }
 
     @Override
-    public void onClick(Player player, ItemStack stack, String action, ClickType clickType) {
+    public void onClick(final Player player, final ItemStack stack, final String action, final ClickType clickType) {
         if (action.startsWith("Hub")) {
             if (action.equals(EuphalysApi.getInstance().getSProperty("name"))) {
                 player.sendMessage(ChatColor.RED + "Vous ne pouvez pas aller sur votre hub actuel !");
@@ -107,7 +107,7 @@ public class GuiSwitchHub extends AbstractGui {
             this.hub.getGuiManager().openGui(player, new GuiMain(this.hub));
     }
 
-    private ItemStack getHubItem(Server hub) {
+    private ItemStack getHubItem(final Server hub) {
         ItemStack glass;
         String baseName = "Hub " + hub.getServerName().replace("Hub", "") + " (" + hub.getOnlineAmount() + " joueur" + (hub.getOnlineAmount() > 1 ? "s" : "") + ")";
         if (hub.getOnlineAmount() <= 15)
@@ -140,7 +140,7 @@ public class GuiSwitchHub extends AbstractGui {
         return glass;
     }
 
-    private ItemStack getGlass(Material material, DyeColor color, String name) {
+    private ItemStack getGlass(final Material material, final DyeColor color, final String name) {
         ItemStack itemStack = new ItemStack(material);
         itemStack.setDurability(color.getWoolData());
         ItemMeta meta = itemStack.getItemMeta();

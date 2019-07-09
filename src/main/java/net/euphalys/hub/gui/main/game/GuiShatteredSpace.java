@@ -10,12 +10,12 @@ import org.bukkit.entity.Player;
 
 public class GuiShatteredSpace extends PageGui {
 
-    public GuiShatteredSpace(Hub hub, int page) {
+    public GuiShatteredSpace(final Hub hub, final int page) {
         super(hub, page, "shsp_preview");
     }
 
     @Override
-    public void display(Player player) {
+    public void display(final Player player) {
         this.inventory = this.hub.getServer().createInventory(null, 54, "Choisir un serveur (Page " + this.page + ")");
         this.update(player);
         player.openInventory(this.inventory);
