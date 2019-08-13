@@ -8,6 +8,12 @@
     <artifactId>hub</artifactId>
     <version>1.0</version>
 
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <encoding>UTF-8</encoding>
+    </properties>
+
     <repositories>
         <repository>
             <id>viaversion-repo</id>
@@ -27,25 +33,25 @@
         <dependency>
             <groupId>net.euphalys</groupId>
             <artifactId>api</artifactId>
-            <version>0.5.4</version>
+            <version>0.6.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>fr.dinnerwolph</groupId>
             <artifactId>OTL</artifactId>
-            <version>1.0</version>
+            <version>0.4</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.8.8-R0.1-20190425.090436-1</version>
+            <artifactId>spigot-1.8.8</artifactId>
+            <version>1.8.8-R0.1-20190812.100729-1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-1.14</artifactId>
-            <version>1.14-R0.1-20190425.125615-1</version>
+            <artifactId>spigot-1.14.4</artifactId>
+            <version>1.14.4-R0.1-20190812.184306-1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -55,6 +61,7 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
     <build>
         <resources>
             <resource>
@@ -63,37 +70,5 @@
                 </filtering> <!-- this is the important part, it's what replaces, filters, all placeholders in the resources folder (such as ${project.version} in plugin.yml) -->
             </resource>
         </resources>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>api</id>
-
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
-            </plugin>
-        </plugins>
     </build>
 </project>

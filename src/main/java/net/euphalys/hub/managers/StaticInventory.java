@@ -1,18 +1,24 @@
 package net.euphalys.hub.managers;
 
+import com.mojang.authlib.GameProfile;
 import net.euphalys.core.api.EuphalysApi;
 import net.euphalys.hub.Hub;
 import net.euphalys.hub.gui.main.GuiCosmetiques;
 import net.euphalys.hub.gui.main.GuiFriends;
 import net.euphalys.hub.gui.main.GuiMain;
+import net.minecraft.server.v1_14_R1.EntityHuman;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -62,28 +68,52 @@ public class StaticInventory {
         return stack;
     }
 
-    private ItemStack buildHead(final String owner, final int quantity, final String name, final String[] lores) {
+    private ItemStack buildHead(final Player owner, final int quantity, final String name, final String[] lores) {
         ItemStack stack;
         if (EuphalysApi.getInstance().is1_14())
             stack = new ItemStack(net.euphalys.api.utils.Material.PLAYER_HEAD.getBukkitMaterial(), quantity);
         else
             stack = new ItemStack(net.euphalys.api.utils.Material.PLAYER_HEAD.getBukkitMaterial(), quantity, (short) 3);
         SkullMeta meta;
-        if (hub.skullCache.containsKey(owner)) {
+        /**if (hub.skullCache.containsKey(owner)) {
             stack = hub.skullCache.get(owner);
             meta = (SkullMeta) stack.getItemMeta();
         } else {
             meta = (SkullMeta) stack.getItemMeta();
-            meta.setOwner(owner);
             stack.setItemMeta(meta);
-            hub.skullCache.put(owner, stack);
-        }
+            applyTextures(stack, owner);
+            hub.skullCache.put(owner.getName(), stack);
+        }*/
+        meta = (SkullMeta) stack.getItemMeta();
+
         meta.setDisplayName(name);
         if (lores != null)
             meta.setLore(Arrays.asList(lores));
-        meta.setOwner(owner);
         stack.setItemMeta(meta);
+        applyTextures(stack, owner);
         return stack;
+    }
+
+    public void applyTextures(ItemStack itemStack, Player player) {
+        SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
+        Class<?> c_skullMeta = skullMeta.getClass();
+        try {
+            Method m = player.getClass().getDeclaredMethod("getProfile");
+            GameProfile gameProfile = (GameProfile) m.invoke(player);
+            Field f_profile = c_skullMeta.getDeclaredField("profile");
+            f_profile.setAccessible(true);
+            f_profile.set(skullMeta, gameProfile);
+            f_profile.setAccessible(false);
+            itemStack.setItemMeta(skullMeta);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadItems(final Player player) {
@@ -92,7 +122,7 @@ public class StaticInventory {
         this.items.put(2, buildItemStack(gunpowder, 1, 0, "§1Poudre magique", new String[]{"§7\u25B6 Vous permet de masquer les autres joueurs."}));
         this.items.put(4, buildItemStack(Material.COMPASS, 1, 0, "§1Menu principal", new String[]{"§7\u25B6 Affiche les modes de jeux et autres hubs."}));
         this.items.put(6, buildItemStack(Material.NETHER_STAR, 1, 0, "§1Cosmétiques", new String[]{"§7\u25B6 Utilisez une monture ou des particules !"}));
-        this.items.put(19, buildHead(player.getName(), 1, "§1Profil : §7" + player.getName(), new String[]{"§6Temps de jeu : §9" + getTimePlayed(player.getUniqueId()), "§6Grade : " + EuphalysApi.getInstance().getPlayer(player.getUniqueId()).getGroup().getScore()}));
+        this.items.put(19, buildHead(player, 1, "§1Profil : §7" + player.getName(), new String[]{"§6Temps de jeu : §9" + getTimePlayed(player.getUniqueId()), "§6Grade : " + EuphalysApi.getInstance().getPlayer(player.getUniqueId()).getGroup().getScore()}));
         this.items.put(25, buildItemStack(enchanting_table, 1, 0, "§9Amis", new String[]{"§7\u25B6 Gestion des amis."}));
 
     }
@@ -144,11 +174,16 @@ public class StaticInventory {
         float time = EuphalysApi.getInstance().getPlayer(uuid).getTimePlayed() + 0L;
         TimeZone timeZone = TimeZone.getTimeZone("UTC");
         SimpleDateFormat df;
-        if (time >= 86_400_000)
-            df = new SimpleDateFormat("DD HH:mm:ss");
+        int day = 0;
+        while (time >= 86_400_000) {
+            time -= 86_400_000;
+            day++;
+        }
+        if (day >= 1)
+            df = new SimpleDateFormat(day + " HH:mm:ss");
         else
             df = new SimpleDateFormat("HH:mm:ss");
         df.setTimeZone(timeZone);
-        return df.format((EuphalysApi.getInstance().getPlayer(uuid).getTimePlayed() + 0L) / 1000);
+        return df.format(time);
     }
 }

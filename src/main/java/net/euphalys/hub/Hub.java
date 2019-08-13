@@ -12,10 +12,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.json.simple.JSONObject;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -29,7 +31,7 @@ public class Hub extends JavaPlugin {
     private GuiManager guiManager;
     private EventBus eventBus;
     private PlayerManager playerManager;
-    public Map<Player, IScoreboardSign> scoreboardSignMap;
+    public Map<UUID, IScoreboardSign> scoreboardSignMap;
     public Map<String, ItemStack> skullCache;
 
     @Override
@@ -47,6 +49,9 @@ public class Hub extends JavaPlugin {
         this.eventBus.registerManager(new PlayerManager(this));
         new ListenerManager();
         getCommand("test").setExecutor(new Test());
+        getServer().getPluginManager().addPermission(new Permission("euphalys.dev.alpha"));
+        getServer().getPluginManager().addPermission(new Permission("euphalys.joinmessage"));
+        EuphalysApi.getInstance().getModuleHandler().enableModuleRegistered("rank");
     }
 
     public GuiManager getGuiManager() {

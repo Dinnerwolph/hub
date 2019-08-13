@@ -27,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class GuiSwitchHub extends AbstractGui {
 
     private final int page;
-    private final int version[] = {47, 110, 340, 485};
+    private final int version[] = {47, 110, 340, 498};
     private final String server[] = {"Hub1-8", "Hub1-9", "Hub1-12", "Hub1-14"};
 
     GuiSwitchHub(final Hub hub, final int page) {

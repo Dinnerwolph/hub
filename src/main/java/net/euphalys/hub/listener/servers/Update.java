@@ -18,9 +18,8 @@ public class Update implements Listener {
     @EventHandler
     public void onServerUpdate(final ServerUpdateEvent event) {
         IScoreboardSign sign;
-        System.out.println(Hub.getInstance().scoreboardSignMap.keySet().toString());
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            sign = Hub.getInstance().scoreboardSignMap.get(onlinePlayer);
+            sign = Hub.getInstance().scoreboardSignMap.get(onlinePlayer.getUniqueId());
             if (sign == null) {
                 System.out.println("new scoreboardsing " + onlinePlayer);
             } else

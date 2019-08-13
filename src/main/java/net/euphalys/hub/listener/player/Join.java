@@ -2,6 +2,7 @@ package net.euphalys.hub.listener.player;
 
 import fr.dinnerwolph.otl.bukkit.BukkitOTL;
 import fr.dinnerwolph.otl.bukkit.server.Server;
+import net.euphalys.api.player.IEuphalysPlayer;
 import net.euphalys.api.utils.IScoreboardSign;
 import net.euphalys.core.api.EuphalysApi;
 import net.euphalys.hub.Hub;
@@ -30,19 +31,22 @@ public class Join implements Listener {
     @EventHandler
     public void onPlayerJoin(final PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        if (player.hasPermission("euphalys.joinmessage"))
-            event.setJoinMessage(player.getDisplayName() +" §7§oa rejoint le serveur !");
-        else
+        IEuphalysPlayer euphaPlayer = EuphalysApi.getInstance().getPlayer(player.getUniqueId());
+        if (!player.hasPermission("euphalys.joinmessage") || euphaPlayer.isVanished() || euphaPlayer.hasNickName())
             event.setJoinMessage("");
+        else
+            event.setJoinMessage(player.getDisplayName() + " §7§oa rejoint le serveur !");
+
         IScoreboardSign sign = EuphalysApi.getInstance().newScoreboardSign(player, "§2Euphalys");
         sign.create();
-        sign.setLine(8, "§9Bienvenue, §b" + player.getName());
+        sign.setLine(8, "§9Bienvenue, §b" + euphaPlayer.getName());
         sign.setLine(9, "§1");
         sign.setLine(10, "§7⋙ §9Serveur : §b" + EuphalysApi.getInstance().getSProperty("name"));
         sign.setLine(11, "§7⋙ §9Connectés : §b" + NumberOfPlayer());
-        sign.setLine(12, "§7⋙ §9Grade : " + EuphalysApi.getInstance().getPlayer(player.getUniqueId()).getGroup().getScore());
+        sign.setLine(12, "§7⋙ §9Grade : " + euphaPlayer.getRealGroup().getScore());
         sign.setLine(13, "§3");
-        Hub.getInstance().scoreboardSignMap.put(player, sign);
+
+        Hub.getInstance().scoreboardSignMap.put(player.getUniqueId(), sign);
         Hub.getInstance().getEventBus().onLogin(player);
         Hub.getInstance().sendInformation();
     }
@@ -95,7 +99,7 @@ public class Join implements Listener {
                 Hub.getInstance().sendInformation();
             }
         }, 20 * 2);
-        Hub.getInstance().scoreboardSignMap.get(event.getPlayer()).destroy();
-        Hub.getInstance().scoreboardSignMap.remove(event.getPlayer());
+        Hub.getInstance().scoreboardSignMap.get(event.getPlayer().getUniqueId()).destroy();
+        Hub.getInstance().scoreboardSignMap.remove(event.getPlayer().getUniqueId());
     }
 }
