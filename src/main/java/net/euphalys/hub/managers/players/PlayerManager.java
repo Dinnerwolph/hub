@@ -16,13 +16,11 @@ public class PlayerManager extends AbstractManager {
 
     private final StaticInventory staticInventory;
     private final Location spawn;
-    private boolean canBuild;
 
     public PlayerManager(final Hub hub) {
         super(hub);
         this.staticInventory = new StaticInventory(hub);
-        this.spawn = new Location(Bukkit.getWorlds().get(0), -15.5, 12.5, 88.5);
-        this.canBuild = false;
+        this.spawn = new Location(Bukkit.getWorlds().get(0), 72.5, 69.5, 59.5);
     }
 
     public void onDisable() {
@@ -43,19 +41,11 @@ public class PlayerManager extends AbstractManager {
     public void onLogout(final Player player) {
     }
 
-    public void setBuild(final boolean canBuild) {
-        this.canBuild = canBuild;
-    }
-
-    public Location getSpawn() {
+    private Location getSpawn() {
         return spawn;
     }
 
     public StaticInventory getStaticInventory() {
         return this.staticInventory;
-    }
-
-    public boolean canBuild() {
-        return this.canBuild;
     }
 }

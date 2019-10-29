@@ -21,7 +21,7 @@
         </repository>
         <repository>
             <id>spigot</id>
-            <url>https://mvn.euphalys.net/artifactory/spigot/</url>
+            <url>https://repos.euphalys.net</url>
         </repository>
         <repository>
             <id>otl</id>
@@ -33,7 +33,7 @@
         <dependency>
             <groupId>net.euphalys</groupId>
             <artifactId>api</artifactId>
-            <version>0.6.1</version>
+            <version>0.6.2</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -44,14 +44,14 @@
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-1.8.8</artifactId>
-            <version>1.8.8-R0.1-20190812.100729-1</version>
+            <artifactId>spigot</artifactId>
+            <version>1.8.8-R0.1-20191008.123724-1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-1.14.4</artifactId>
-            <version>1.14.4-R0.1-20190812.184306-1</version>
+            <artifactId>spigot1-14</artifactId>
+            <version>1.14.4-R0.1-20191008.124025-1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
