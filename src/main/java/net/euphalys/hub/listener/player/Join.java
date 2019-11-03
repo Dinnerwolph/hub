@@ -35,16 +35,17 @@ public class Join implements Listener {
         if (!player.hasPermission("euphalys.joinmessage") || euphaPlayer.isVanished() || euphaPlayer.hasNickName())
             event.setJoinMessage("");
         else
-            event.setJoinMessage(player.getDisplayName() + " §7§oa rejoint le serveur !");
+            event.setJoinMessage(player.getDisplayName() + " §6§oa rejoint le serveur !");
 
-        IScoreboardSign sign = EuphalysApi.getInstance().newScoreboardSign(player, "§2Euphalys");
+        IScoreboardSign sign = EuphalysApi.getInstance().newScoreboardSign(player, "§2EUPHALYS.NET");
         sign.create();
-        sign.setLine(8, "§9Bienvenue, §b" + euphaPlayer.getName());
+        sign.setLine(8, "§7Bienvenue, §b" + euphaPlayer.getName());
         sign.setLine(9, "§1");
-        sign.setLine(10, "§7⋙ §9Serveur : §b" + EuphalysApi.getInstance().getSProperty("name"));
-        sign.setLine(11, "§7⋙ §9Connectés : §b" + NumberOfPlayer());
-        sign.setLine(12, "§7⋙ §9Grade : " + euphaPlayer.getRealGroup().getScore());
-        sign.setLine(13, "§3");
+        sign.setLine(10, "§7⋙ Serveur : §c" + EuphalysApi.getInstance().getSProperty("name"));
+        sign.setLine(11, "§7⋙ Connectés : §c" + NumberOfPlayer());
+        sign.setLine(12, "§7⋙ Grade : " + euphaPlayer.getRealGroup().getScore());
+        sign.setLine(13, "§7⋙ Niveau : Niveau 1";
+        sign.setLine(14, "§3");
 
         Hub.getInstance().scoreboardSignMap.put(player.getUniqueId(), sign);
         Hub.getInstance().getEventBus().onLogin(player);
