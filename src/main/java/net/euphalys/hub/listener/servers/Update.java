@@ -23,7 +23,7 @@ public class Update implements Listener {
             if (sign == null) {
                 System.out.println("new scoreboardsing " + onlinePlayer);
             } else
-                sign.setLine(11, "§7⋙ §9Connectés : §b" + NumberOfPlayer());
+                sign.setLine(10, "§7⋙ Connectés : §c" + NumberOfPlayer());
         }
     }
 

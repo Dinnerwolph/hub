@@ -39,13 +39,13 @@ public class Join implements Listener {
 
         IScoreboardSign sign = EuphalysApi.getInstance().newScoreboardSign(player, "§2EUPHALYS.NET");
         sign.create();
-        sign.setLine(8, "§7Bienvenue, §b" + euphaPlayer.getName());
-        sign.setLine(9, "§1");
-        sign.setLine(10, "§7⋙ Serveur : §c" + EuphalysApi.getInstance().getSProperty("name"));
-        sign.setLine(11, "§7⋙ Connectés : §c" + NumberOfPlayer());
-        sign.setLine(12, "§7⋙ Grade : " + euphaPlayer.getRealGroup().getScore());
-        sign.setLine(13, "§7⋙ Niveau : Niveau 1";
-        sign.setLine(14, "§3");
+        sign.setLine(7, "§7Bienvenue, §b" + euphaPlayer.getName());
+        sign.setLine(8, "§1");
+        sign.setLine(9, "§7⋙ Serveur : §c" + EuphalysApi.getInstance().getSProperty("name"));
+        sign.setLine(10, "§7⋙ Connectés : §c" + NumberOfPlayer());
+        sign.setLine(11, "§7⋙ Grade : " + euphaPlayer.getRealGroup().getScore());
+        sign.setLine(12, "§7⋙ Niveau : Niveau 1");
+        sign.setLine(13, "§3");
 
         Hub.getInstance().scoreboardSignMap.put(player.getUniqueId(), sign);
         Hub.getInstance().getEventBus().onLogin(player);
