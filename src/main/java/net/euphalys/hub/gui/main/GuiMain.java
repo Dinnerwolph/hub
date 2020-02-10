@@ -28,7 +28,7 @@ public class GuiMain extends AbstractGui {
         this.setSlotData(ChatColor.DARK_GREEN + "Projet Hub", net.euphalys.api.utils.Material.GREEN_TERRACOTTA.getBukkitMaterial(), 14, makeButtonLore(new String[]{"§cSous Whitelist. Réservé à l'équipe du Projet Hub."}, true, false), "buildhub");
         this.setSlotData(ChatColor.GOLD + "Changer de hub", Material.ENDER_CHEST, 35, makeButtonLore(new String[]{"Cliquez pour ouvrir l'interface"}, true, false), "switch_hub");
         if (player.hasPermission("euphalys.dev.alpha"))
-            this.setSlotData(ChatColor.BLUE + "Shattered Space", Material.DIAMOND_SWORD, 10, makeButtonLore(new String[]{"", "", "Développeur: Klott", "GameDesign : FlameOfChange", "Version Minecraft : §b1.9 - 1.13 ", "§cJeu en test interne."}, true, false), "shattered");
+            this.setSlotData(ChatColor.BLUE + "Shattered Space", Material.DIAMOND_SWORD, 10, makeButtonLore(new String[]{"", "", "Développeur: Dinnerwoplph", "GameDesign : FlameOfChange", "Version Minecraft : §b1.8 - 1.14 ", "§cJeu en test interne."}, true, false), "shattered");
         this.setBackSlot();
         player.openInventory(this.inventory);
     }
